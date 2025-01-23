@@ -6,4 +6,4 @@ Make sure you've python installed on your device. <a href="https://www.python.or
 ## To start game:
 1. Clone repository or download CLI_game.py
 2. Start game in terminal using 'your_path'/CLI_game.py
-3. play it!
+3. Test and play it!
