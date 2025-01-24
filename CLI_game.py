@@ -56,7 +56,7 @@ class AdventureGame:
         if self.secret_item:
             self.battle()
         else:
-            print(f"Wat doe je? Ga terug naar de splitsing (A) of ga loop verder het pad af (B){" of open de deur (C)" if self.has_key else ""}")
+            print(f"Wat doe je? Ga terug naar de splitsing (A) of ga loop verder het pad af (B) of open de deur (C)")
             choice = None
             while choice is None or (choice != "a" and choice != "b" and choice != "c"):
                 choice = input()
