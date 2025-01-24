@@ -53,8 +53,16 @@ class AdventureGame:
     def obstacle(self):
         print("\nJe komt bij een gesloten deur.")
         if self.has_key:
-            print("Je gebruikt de sleutel om de deur te openen.")
-            self.find_secret_item()
+            choice = input("Wil je de sleutel gebruiken om de deur te openen? [j/n] ")
+            if choice.lower() == "j":
+                print("Je gebruikt de sleutel om de deur te openen.")
+                self.find_secret_item()
+            elif choice.lower() == "n":
+                print("Je besluit niet de sleutel te gebruiken.")
+                self.battle()
+            else:
+                print("Ongeldige keuze. Probeer opnieuw.")
+                self.battle()
         else:
             print("Je hebt geen sleutel. Zoek een andere weg.")
             self.battle()
