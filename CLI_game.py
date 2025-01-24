@@ -1,4 +1,5 @@
 import random
+from colorama import Fore
 
 class NPC:
     def __init__(self, name, role, hint):
@@ -46,37 +47,70 @@ class AdventureGame:
         self.obstacle()
 
     def find_key(self):
-        print("\nJe hebt een sleutel gevonden in een verlaten huis!")
+        print(Fore.YELLOW + "\nJe hebt een sleutel gevonden in een verlaten huis!" + Fore.RESET)
         self.has_key = True
         self.obstacle()
 
     def obstacle(self):
-        print("\nJe komt bij een gesloten deur.")
-        if self.has_key:
-            print("Je gebruikt de sleutel om de deur te openen.")
-            self.find_secret_item()
-        else:
-            print("Je hebt geen sleutel. Zoek een andere weg.")
+        print("\nJe komt bij een gesloten deur." if not self.secret_item else "\nJe komt terug op het pad en besluit verder te lopen")
+        if self.secret_item:
             self.battle()
+        else:
+            print(f"Wat doe je? Ga terug naar de splitsing (A) of ga loop verder het pad af (B){" of open de deur (C)" if self.has_key else ""}")
+            choice = None
+            while choice is None or (choice != "a" and choice != "b" and (self.has_key and choice == "c")):
+                choice = input()
+                if choice is not None:
+                    choice = choice.lower()
+
+            if choice == "a":
+                print("Je loopt terug naar de splitsing")
+                self.first_choice()
+            elif choice == "b":
+                print("Je loopt verder het pad af")
+                self.battle()
+            elif choice == "c" and self.has_key:
+                print(Fore.YELLOW + "Je gebruikt de sleutel om de deur te openen." + Fore.RESET)
+                self.find_secret_item()
+            elif choice == "c" and not self.has_key:
+                print(Fore.RED + "Je hebt een sleutel nodig om de deur to openen" + Fore.RESET)
+                self.obstacle()
 
     def find_secret_item(self):
-        print("\nAchter de deur vind je een mysterieus object!")
+        print(Fore.GREEN + "\nAchter de deur vind je een mysterieus object!" + Fore.RESET)
         self.secret_item = True
-        self.battle()
+        print("\nJe vindt een geheime tunnel")
+        print("Wat doe je? Ga door de tunnel (A) of ga terug naar het pad (B)")
+        choice = None
+        while choice is None or (choice != "a" and choice != "b"):
+            choice = input()
+            if choice is not None:
+                choice = choice.lower()
+
+        if choice == "a":
+            print("Je gaat door de tunnel.")
+            print("Je vindt een puzzel")
+            self.puzzle()
+        elif choice == "b":
+            self.obstacle()
 
     def battle(self):
         print("\nEen vijand blokkeert je pad!")
         choice = input("Wat doe je? Vlucht (V) of Vecht (F)? ").lower()
+        while choice is None or (choice != "v" and choice != "f"):
+            choice = input()
+            if choice is not None:
+                choice = choice.lower()
         if choice == "v":
-            print("Je vlucht terug naar de deur.")
-            self.obstacle()
+            print("Je vlucht terug naar de splitsing.")
+            self.first_choice()
         elif choice == "f":
             if random.choice([True, False]):
-                print("Je hebt de vijand verslagen!")
+                print(Fore.GREEN + "Je hebt de vijand verslagen!" + Fore.RESET)
                 self.puzzle()
             else:
-                print("Je bent verslagen! Probeer opnieuw.")
-                self.obstacle()
+                print(Fore.RED + "Je bent verslagen! Je vlucht terug naar de splitsing." + Fore.RESET)
+                self.first_choice()
         else:
             print("Ongeldige keuze. Probeer opnieuw.")
             self.battle()
