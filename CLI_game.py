@@ -132,5 +132,8 @@ class AdventureGame:
             self.path_split()
 
 # Start het spel
-game = AdventureGame()
-game.start_game()
+try:
+    game = AdventureGame()
+    game.start_game()
+except KeyboardInterrupt:
+    print("\nJe hebt de game afgebroken.")
